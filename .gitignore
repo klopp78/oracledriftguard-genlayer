@@ -4,6 +4,7 @@ node_modules/
 dist/
 .next/
 out/
+.sites/
 contracts/__pycache__/
 *.pyc
 .env

@@ -10,7 +10,7 @@ signals diverge, become stale, or need manual review.
 - App: https://oracledriftguard-genlayer.galaxthoo.chatgpt.site
 - GitHub repo: https://github.com/klopp78/oracledriftguard-genlayer
 - Contract source: `contracts/oracle_drift_guard.py`
-- Studio contract: pending deployment
+- Studio contract: https://explorer-studio.genlayer.com/address/0xa5eDE12077bbf64ecF45BA835d335928e4399AA4
 
 The app defaults to the deployed contract address and can be overridden with
 `NEXT_PUBLIC_ORACLE_DRIFT_GUARD_CONTRACT_ADDRESS`.

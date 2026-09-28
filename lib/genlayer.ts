@@ -4,7 +4,7 @@ import { TransactionStatus } from "genlayer-js/types";
 
 export const ORACLE_DRIFT_GUARD_CONTRACT_ADDRESS =
   (process.env.NEXT_PUBLIC_ORACLE_DRIFT_GUARD_CONTRACT_ADDRESS ??
-    "0x0000000000000000000000000000000000000000") as `0x${string}`;
+    "0xa5eDE12077bbf64ecF45BA835d335928e4399AA4") as `0x${string}`;
 
 export type WalletAddress = `0x${string}`;
 
