@@ -1,4 +1,5 @@
 import assert from "node:assert/strict";
+import { spawnSync } from "node:child_process";
 
 const walletAddress = "0xE22D4Dc6865BD451411479D3A146EAFBd87D156B";
 const marketId = "market_7cf7a5d6b3de4fb64544";
@@ -119,4 +120,26 @@ assert.deepEqual(
 );
 assert.equal(outcome.returnedMarketId, marketId);
 assert.equal(outcome.returnedDriftId, driftId);
-console.log("OracleDriftGuard simulated full-flow check passed");
+
+const pythonRunners = [
+  process.env.PYTHON,
+  ...(process.platform === "win32" ? ["python", "py"] : ["python3", "python"]),
+].filter(Boolean);
+let contractCheck;
+let lastError = "";
+for (const runner of pythonRunners) {
+  contractCheck = spawnSync(runner, ["scripts/check_contract.py"], {
+    cwd: process.cwd(),
+    encoding: "utf8",
+  });
+  if (contractCheck.status === 0) break;
+  lastError = `${runner}: ${contractCheck.error?.message || contractCheck.stderr || contractCheck.stdout}`;
+}
+
+assert.equal(
+  contractCheck?.status,
+  0,
+  `contract write-method E2E flow failed:\n${lastError}`,
+);
+
+console.log("OracleDriftGuard full-flow check passed: client sequence plus contract write-method E2E");

@@ -370,4 +370,7 @@ def _sha256(value: str) -> str:
 
 
 def _now() -> int:
-    return int(gl.block.timestamp)
+    try:
+        return int(gl.block.timestamp)
+    except Exception:
+        return 0

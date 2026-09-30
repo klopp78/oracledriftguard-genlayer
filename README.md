@@ -10,7 +10,7 @@ signals diverge, become stale, or need manual review.
 - App: https://oracledriftguard-genlayer.galaxthoo.chatgpt.site
 - GitHub repo: https://github.com/klopp78/oracledriftguard-genlayer
 - Contract source: `contracts/oracle_drift_guard.py`
-- Studio contract: https://explorer-studio.genlayer.com/address/0xa5eDE12077bbf64ecF45BA835d335928e4399AA4
+- Studio contract: https://explorer-studio.genlayer.com/address/0x7aA325fB20223CFC47f47d10311F5f0a555CCE0F
 
 The app defaults to the deployed contract address and can be overridden with
 `NEXT_PUBLIC_ORACLE_DRIFT_GUARD_CONTRACT_ADDRESS`.
@@ -107,6 +107,14 @@ npm run flow:check
 npm run build
 ```
 
-`npm run flow:check` simulates the full app-level sequence: market
-registration, accepted receipt parsing, exact market readback, drift
-assessment, accepted receipt parsing, and exact report readback.
+`npm run flow:check` verifies two layers. First, it checks the browser/client
+sequence: market registration, accepted receipt parsing, exact market readback,
+drift assessment, accepted receipt parsing, and exact report readback. Second,
+it loads `contracts/oracle_drift_guard.py` with a GenLayer runtime stub and
+actually executes both write methods, `register_market` and `assess_drift`,
+against mocked `gl.nondet.web.render` and `gl.nondet.exec_prompt` calls. That
+contract-level path verifies the `_now()` fallback for runtimes without
+`gl.block.timestamp`, confirms leader and validator source renders, persists
+baseline and drift snapshot commitments, rejects unknown markets, and reads
+both accepted records back by returned ID. Set `PYTHON` to a Python 3
+interpreter path if it is not available as `python3`, `python`, or `py`.
